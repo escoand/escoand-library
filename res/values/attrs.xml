@@ -8,5 +8,7 @@
     <attr name="textColorSecondary" format="reference" />
     <attr name="textColorTertiary" format="reference" />
     <attr name="widget_bg" format="reference" />
+    
+    <dimen name="calendar_event_margin">1sp</dimen>
 
 </resources>
