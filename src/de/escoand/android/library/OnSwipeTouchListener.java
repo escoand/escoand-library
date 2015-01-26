@@ -13,7 +13,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.escoand.android.library;
+package de.escoand.android.library;
 
 import android.content.Context;
 import android.view.GestureDetector;
