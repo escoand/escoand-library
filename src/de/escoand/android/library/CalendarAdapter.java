@@ -9,13 +9,14 @@ import android.database.DataSetObserver;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-public class CalendarAdapter extends Object implements ListAdapter {
+public class CalendarAdapter implements ListAdapter, OnClickListener {
 	public GregorianCalendar DATE_FIRST;
 	public GregorianCalendar DATE_LAST;
 	public boolean WEEK_NUMBERS = true;
@@ -23,6 +24,7 @@ public class CalendarAdapter extends Object implements ListAdapter {
 	public int EVENT_BACKGROUND = android.R.color.background_dark;
 
 	private CalendarEvent[] events = new CalendarEvent[0];
+	private OnCalendarEventClickListener listener = null;
 
 	public CalendarAdapter() {
 		DATE_FIRST = new GregorianCalendar();
@@ -43,6 +45,8 @@ public class CalendarAdapter extends Object implements ListAdapter {
 				.getTime()) / (1000 * 60 * 60 * 24 * 7) + 1);
 	}
 
+	/* gui handling */
+
 	@Override
 	public Object getItem(int position) {
 		GregorianCalendar begin = (GregorianCalendar) DATE_FIRST.clone();
@@ -58,11 +62,6 @@ public class CalendarAdapter extends Object implements ListAdapter {
 		end.add(GregorianCalendar.MILLISECOND, -1);
 
 		return new CalendarEvent(begin, end, null);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return 0;
 	}
 
 	@Override
@@ -240,6 +239,8 @@ public class CalendarAdapter extends Object implements ListAdapter {
 			/* event */
 			TextView tv = new TextView(new ContextThemeWrapper(context,
 					R.style.Calendar_Day_Event));
+			tv.setTag(event);
+			tv.setOnClickListener((OnClickListener) this);
 			tv.setTextColor(EVENT_FOREGROUND);
 			tv.setBackgroundColor(EVENT_BACKGROUND);
 			if (days > 2)
@@ -264,15 +265,7 @@ public class CalendarAdapter extends Object implements ListAdapter {
 		return convertView;
 	}
 
-	@Override
-	public int getItemViewType(int position) {
-		return 0;
-	}
-
-	@Override
-	public int getViewTypeCount() {
-		return 1;
-	}
+	/* events handling */
 
 	public void setEvents(CalendarEvent[] events) {
 		this.events = events;
@@ -299,6 +292,38 @@ public class CalendarAdapter extends Object implements ListAdapter {
 		}
 	}
 
+	public void setOnCalendarEventClickedListener(OnCalendarEventClickListener l) {
+		listener = l;
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (listener != null)
+			listener.onCalenderEventClick((CalendarEvent) v.getTag());
+	}
+
+	/* generic methods */
+
+	@Override
+	public boolean areAllItemsEnabled() {
+		return true;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return 0;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		return 0;
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return 1;
+	}
+
 	@Override
 	public boolean hasStableIds() {
 		return true;
@@ -310,6 +335,11 @@ public class CalendarAdapter extends Object implements ListAdapter {
 	}
 
 	@Override
+	public boolean isEnabled(int position) {
+		return true;
+	}
+
+	@Override
 	public void registerDataSetObserver(DataSetObserver observer) {
 	}
 
@@ -317,15 +347,7 @@ public class CalendarAdapter extends Object implements ListAdapter {
 	public void unregisterDataSetObserver(DataSetObserver observer) {
 	}
 
-	@Override
-	public boolean areAllItemsEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled(int position) {
-		return true;
-	}
+	/* view holder */
 
 	private static class ViewHolder {
 		TextView month;

@@ -4,12 +4,14 @@ import android.app.ListFragment;
 import android.os.Bundle;
 
 public class CalendarFragment extends ListFragment {
-	CalendarAdapter adapter = new CalendarAdapter();
-	CalendarEvent[] events = new CalendarEvent[0];
+	private CalendarAdapter adapter;
+
+	public CalendarFragment() {
+		adapter = new CalendarAdapter();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		adapter.setEvents(events);
 		setListAdapter(adapter);
 		super.onCreate(savedInstanceState);
 	}
@@ -21,9 +23,10 @@ public class CalendarFragment extends ListFragment {
 	}
 
 	public void setEvents(CalendarEvent[] events) {
-		if (getView() == null)
-			this.events = events;
-		else
-			adapter.setEvents(events);
+		adapter.setEvents(events);
+	}
+
+	public void setOnCalendarEventClickedListener(OnCalendarEventClickListener l) {
+		adapter.setOnCalendarEventClickedListener(l);
 	}
 }
