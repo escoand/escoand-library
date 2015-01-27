@@ -142,8 +142,8 @@ public class CalendarAdapter extends Object implements ListAdapter {
 		}
 
 		/* day numbers */
-		GregorianCalendar tmp = (GregorianCalendar) week.begin.clone();
 		SimpleDateFormat frmt = new SimpleDateFormat("E", Locale.getDefault());
+		GregorianCalendar tmp = (GregorianCalendar) week.begin.clone();
 		tmp.set(GregorianCalendar.DAY_OF_WEEK, tmp.getFirstDayOfWeek());
 		holder.weekday1.setText(frmt.format(tmp.getTime()));
 		holder.day1.setText(String.valueOf(tmp.get(GregorianCalendar.DATE)));
@@ -189,31 +189,31 @@ public class CalendarAdapter extends Object implements ListAdapter {
 			/* search place in previous rows */
 			loop: for (int i = 0; i < holder.rows.getChildCount(); i++) {
 				LinearLayout r = (LinearLayout) holder.rows.getChildAt(i);
-				float k = 0;
+				float pos = 0;
 				for (int j = 0; j < r.getChildCount(); j++) {
 					lo = ((LayoutParams) r.getChildAt(j).getLayoutParams());
 
 					/* insert into row */
-					if (!(r.getChildAt(j) instanceof TextView) && k <= offset
-							&& k + lo.weight >= offset + days
+					if (!(r.getChildAt(j) instanceof TextView) && pos <= offset
+							&& pos + lo.weight >= offset + days
 							&& lo.weight >= days) {
 						row = r;
-						lo.weight = k + lo.weight - offset - days;
+						lo.weight = pos + lo.weight - offset - days;
 						if (lo.weight == 0)
 							r.removeViewAt(j);
 						index = j;
-						offset -= k;
+						offset -= pos;
 						break loop;
 					}
 
-					k += lo.weight;
+					pos += lo.weight;
 				}
 
 				/* append to row */
-				if (k <= offset) {
+				if (pos <= offset) {
 					row = r;
 					index = row.getChildCount();
-					offset -= k;
+					offset -= pos;
 					break;
 				}
 			}
