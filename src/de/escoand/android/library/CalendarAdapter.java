@@ -19,8 +19,8 @@ public class CalendarAdapter extends Object implements ListAdapter {
 	public GregorianCalendar DATE_FIRST;
 	public GregorianCalendar DATE_LAST;
 	public boolean WEEK_NUMBERS = true;
-	public int EVENT_FOREGROUND = 0xffffffff;
-	public int EVENT_BACKGROUND = 0xff219bd2;
+	public int EVENT_FOREGROUND = android.R.color.primary_text_dark;
+	public int EVENT_BACKGROUND = android.R.color.background_dark;
 
 	private CalendarEvent[] events = new CalendarEvent[0];
 
@@ -223,6 +223,18 @@ public class CalendarAdapter extends Object implements ListAdapter {
 				row = (LinearLayout) inflater.inflate(
 						R.layout.calendar_eventrow, holder.rows, false);
 				holder.rows.addView(row);
+			}
+
+			/* color */
+			try {
+				EVENT_BACKGROUND = context.getResources().getColor(
+						EVENT_BACKGROUND);
+			} catch (Exception e) {
+			}
+			try {
+				EVENT_FOREGROUND = context.getResources().getColor(
+						EVENT_FOREGROUND);
+			} catch (Exception e) {
 			}
 
 			/* event */

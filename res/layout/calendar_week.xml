@@ -3,8 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/Calendar.Padding"
-    android:paddingRight="@dimen/Calendar.Padding" >
+    android:paddingBottom="@dimen/Calendar.Padding.Vertical"
+    android:paddingLeft="@dimen/Calendar.Padding.Horizontal"
+    android:paddingRight="@dimen/Calendar.Padding.Horizontal"
+    android:paddingTop="@dimen/Calendar.Padding.Vertical" >
 
     <TextView
         android:id="@+id/monthName"
@@ -90,7 +92,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50sp"
+                android:layout_height="@dimen/Calendar.Events.Height"
                 android:orientation="vertical" >
 
                 <LinearLayout

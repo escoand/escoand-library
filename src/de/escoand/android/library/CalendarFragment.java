@@ -16,6 +16,7 @@ public class CalendarFragment extends ListFragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		getListView().setDivider(null);
 		super.onActivityCreated(savedInstanceState);
 	}
 

@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <dimen name="Calendar.Padding">7sp</dimen>
-    <dimen name="Calendar.Event.Margin">1sp</dimen>
-    <dimen name="Calendar.Event.Padding">3sp</dimen>
+    <dimen name="Calendar.Padding.Horizontal">3dp</dimen>
+    <dimen name="Calendar.Padding.Vertical">0dp</dimen>
+    <dimen name="Calendar.Events.Height">45dp</dimen>
+    <dimen name="Calendar.Event.Margin">1dp</dimen>
+    <dimen name="Calendar.Event.Padding.Horizontal">3dp</dimen>
+    <dimen name="Calendar.Event.Padding.Vertical">2dp</dimen>
 
     <style name="Calendar.Month.Name" parent="@android:style/Widget.TextView">
-        <item name="android:paddingBottom">5sp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
     </style>
 
     <style name="Calendar.Week.Number" parent="@android:style/Widget.TextView">
-        <item name="android:textColor">@android:color/tertiary_text_dark</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Small.Inverse</item>
     </style>
 
     <style name="Calendar.Week.Day" parent="@android:style/Widget.TextView">
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
     </style>
 
     <style name="Calendar.Day.Number" parent="@android:style/Widget.TextView">
         <item name="android:gravity">center_horizontal</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
     </style>
 
     <style name="Calendar.Day.Event" parent="@android:style/Widget.TextView">
         <item name="android:ellipsize">marquee</item>
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
-        <item name="android:paddingLeft">@dimen/Calendar.Event.Padding</item>
-        <item name="android:paddingRight">@dimen/Calendar.Event.Padding</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:paddingLeft">@dimen/Calendar.Event.Padding.Horizontal</item>
+        <item name="android:paddingRight">@dimen/Calendar.Event.Padding.Horizontal</item>
+        <item name="android:paddingBottom">@dimen/Calendar.Event.Padding.Vertical</item>
+        <item name="android:paddingTop">@dimen/Calendar.Event.Padding.Vertical</item>
+        <item name="android:textSize">11dp</item>
     </style>
 
 </resources>
