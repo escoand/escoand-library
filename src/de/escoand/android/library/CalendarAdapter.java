@@ -284,9 +284,17 @@ public class CalendarAdapter extends Object implements ListAdapter {
 		for (CalendarEvent event : events) {
 			if (event.begin.before(DATE_FIRST)) {
 				DATE_FIRST = (GregorianCalendar) event.begin.clone();
+				if (DATE_FIRST.get(GregorianCalendar.WEEK_OF_MONTH) == 0)
+					DATE_FIRST.add(GregorianCalendar.DATE, -1);
+				DATE_FIRST.set(GregorianCalendar.DAY_OF_WEEK,
+						DATE_FIRST.getFirstDayOfWeek());
 			}
 			if (event.end.after(DATE_LAST)) {
 				DATE_LAST = (GregorianCalendar) event.end.clone();
+				DATE_LAST.set(GregorianCalendar.DAY_OF_WEEK,
+						DATE_LAST.getFirstDayOfWeek());
+				DATE_LAST.add(GregorianCalendar.WEEK_OF_YEAR, 1);
+				DATE_LAST.add(GregorianCalendar.DAY_OF_WEEK, -1);
 			}
 		}
 	}
