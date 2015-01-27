@@ -1,9 +1,8 @@
 package de.escoand.android.library;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-
-import de.escoand.android.library.R;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -17,21 +16,37 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class CalendarAdapter extends Object implements ListAdapter {
-	public int WEEKS_BEFORE = 1000;
-	public int WEEKS_AFTER = 1000;
-	public int DEFAUL_EVENT_COLOR = 0xff219bd2;
+	public GregorianCalendar DATE_FIRST;
+	public GregorianCalendar DATE_LAST;
+	public boolean WEEK_NUMBERS = true;
+	public int EVENT_FOREGROUND = 0xffffffff;
+	public int EVENT_BACKGROUND = 0xff219bd2;
 
 	private CalendarEvent[] events = new CalendarEvent[0];
 
+	public CalendarAdapter() {
+		DATE_FIRST = new GregorianCalendar();
+		DATE_FIRST.set(GregorianCalendar.DAY_OF_YEAR, 1);
+		DATE_LAST = new GregorianCalendar();
+		DATE_LAST.set(GregorianCalendar.DAY_OF_YEAR,
+				DATE_LAST.getActualMaximum(GregorianCalendar.DAY_OF_YEAR));
+	}
+
+	public CalendarAdapter(GregorianCalendar first, GregorianCalendar last) {
+		DATE_FIRST = first;
+		DATE_LAST = last;
+	}
+
 	@Override
 	public int getCount() {
-		return WEEKS_BEFORE + 1 + WEEKS_AFTER;
+		return (int) ((DATE_LAST.getTime().getTime() - DATE_FIRST.getTime()
+				.getTime()) / (1000 * 60 * 60 * 24 * 7) + 1);
 	}
 
 	@Override
 	public Object getItem(int position) {
-		GregorianCalendar begin = new GregorianCalendar();
-		begin.add(GregorianCalendar.WEEK_OF_YEAR, position - WEEKS_BEFORE);
+		GregorianCalendar begin = (GregorianCalendar) DATE_FIRST.clone();
+		begin.add(GregorianCalendar.WEEK_OF_YEAR, position);
 		begin.set(GregorianCalendar.DAY_OF_WEEK, begin.getFirstDayOfWeek());
 		begin.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		begin.set(GregorianCalendar.MINUTE, 0);
@@ -59,7 +74,7 @@ public class CalendarAdapter extends Object implements ListAdapter {
 
 		/* default layout */
 		int px = context.getResources().getDimensionPixelSize(
-				R.dimen.calendar_event_margin);
+				R.dimen.Calendar_Event_Margin);
 		LayoutParams layout = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
 		layout.setMargins(px, px, px, px);
 
@@ -69,6 +84,22 @@ public class CalendarAdapter extends Object implements ListAdapter {
 					false);
 			holder = new ViewHolder();
 			holder.month = (TextView) convertView.findViewById(R.id.monthName);
+			holder.weekdays = (LinearLayout) convertView
+					.findViewById(R.id.weekdays);
+			holder.weekday1 = (TextView) convertView
+					.findViewById(R.id.weekday1);
+			holder.weekday2 = (TextView) convertView
+					.findViewById(R.id.weekday2);
+			holder.weekday3 = (TextView) convertView
+					.findViewById(R.id.weekday3);
+			holder.weekday4 = (TextView) convertView
+					.findViewById(R.id.weekday4);
+			holder.weekday5 = (TextView) convertView
+					.findViewById(R.id.weekday5);
+			holder.weekday6 = (TextView) convertView
+					.findViewById(R.id.weekday6);
+			holder.weekday7 = (TextView) convertView
+					.findViewById(R.id.weekday7);
 			holder.number = (TextView) convertView
 					.findViewById(R.id.weekNumber);
 			holder.day1 = (TextView) convertView.findViewById(R.id.day1);
@@ -95,27 +126,44 @@ public class CalendarAdapter extends Object implements ListAdapter {
 					Locale.getDefault())
 					+ " " + week.end.get(GregorianCalendar.YEAR));
 			holder.month.setVisibility(View.VISIBLE);
+			holder.weekdays.setVisibility(View.VISIBLE);
 		} else {
 			holder.month.setVisibility(View.GONE);
+			holder.weekdays.setVisibility(View.GONE);
+		}
+
+		/* week number */
+		if (WEEK_NUMBERS) {
+			holder.number.setText(String.valueOf(week.begin
+					.get(GregorianCalendar.WEEK_OF_YEAR)));
+			holder.number.setVisibility(View.VISIBLE);
+		} else {
+			holder.number.setVisibility(View.GONE);
 		}
 
 		/* day numbers */
 		GregorianCalendar tmp = (GregorianCalendar) week.begin.clone();
-		holder.number.setText(String.valueOf(tmp
-				.get(GregorianCalendar.WEEK_OF_YEAR)));
+		SimpleDateFormat frmt = new SimpleDateFormat("E", Locale.getDefault());
 		tmp.set(GregorianCalendar.DAY_OF_WEEK, tmp.getFirstDayOfWeek());
+		holder.weekday1.setText(frmt.format(tmp.getTime()));
 		holder.day1.setText(String.valueOf(tmp.get(GregorianCalendar.DATE)));
 		tmp.add(GregorianCalendar.DATE, 1);
+		holder.weekday2.setText(frmt.format(tmp.getTime()));
 		holder.day2.setText(String.valueOf(tmp.get(GregorianCalendar.DATE)));
 		tmp.add(GregorianCalendar.DATE, 1);
+		holder.weekday3.setText(frmt.format(tmp.getTime()));
 		holder.day3.setText(String.valueOf(tmp.get(GregorianCalendar.DATE)));
 		tmp.add(GregorianCalendar.DATE, 1);
+		holder.weekday4.setText(frmt.format(tmp.getTime()));
 		holder.day4.setText(String.valueOf(tmp.get(GregorianCalendar.DATE)));
 		tmp.add(GregorianCalendar.DATE, 1);
+		holder.weekday5.setText(frmt.format(tmp.getTime()));
 		holder.day5.setText(String.valueOf(tmp.get(GregorianCalendar.DATE)));
 		tmp.add(GregorianCalendar.DATE, 1);
+		holder.weekday6.setText(frmt.format(tmp.getTime()));
 		holder.day6.setText(String.valueOf(tmp.get(GregorianCalendar.DATE)));
 		tmp.add(GregorianCalendar.DATE, 1);
+		holder.weekday7.setText(frmt.format(tmp.getTime()));
 		holder.day7.setText(String.valueOf(tmp.get(GregorianCalendar.DATE)));
 
 		/* events */
@@ -179,10 +227,14 @@ public class CalendarAdapter extends Object implements ListAdapter {
 
 			/* event */
 			TextView tv = new TextView(new ContextThemeWrapper(context,
-					R.style.Calendar_Event));
-			tv.setBackgroundColor(DEFAUL_EVENT_COLOR);
-			tv.setText(event.name);
-			lo = new LayoutParams((ViewGroup.LayoutParams) layout);
+					R.style.Calendar_Day_Event));
+			tv.setTextColor(EVENT_FOREGROUND);
+			tv.setBackgroundColor(EVENT_BACKGROUND);
+			if (days > 2)
+				tv.setText(event.name);
+			else
+				tv.setText(event.name_short);
+			lo = new LayoutParams(layout);
 			lo.weight = days;
 			tv.setLayoutParams(lo);
 			row.addView(tv, index);
@@ -212,6 +264,19 @@ public class CalendarAdapter extends Object implements ListAdapter {
 
 	public void setEvents(CalendarEvent[] events) {
 		this.events = events;
+	}
+
+	public void zoomToEvents() {
+		DATE_FIRST = new GregorianCalendar(3000, 0, 1);
+		DATE_LAST = new GregorianCalendar(1000, 0, 1);
+		for (CalendarEvent event : events) {
+			if (event.begin.before(DATE_FIRST)) {
+				DATE_FIRST = (GregorianCalendar) event.begin.clone();
+			}
+			if (event.end.after(DATE_LAST)) {
+				DATE_LAST = (GregorianCalendar) event.end.clone();
+			}
+		}
 	}
 
 	@Override
@@ -244,6 +309,14 @@ public class CalendarAdapter extends Object implements ListAdapter {
 
 	private static class ViewHolder {
 		TextView month;
+		LinearLayout weekdays;
+		TextView weekday1;
+		TextView weekday2;
+		TextView weekday3;
+		TextView weekday4;
+		TextView weekday5;
+		TextView weekday6;
+		TextView weekday7;
 		TextView number;
 		TextView day1;
 		TextView day2;

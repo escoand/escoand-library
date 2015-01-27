@@ -6,6 +6,7 @@ public class CalendarEvent {
 	GregorianCalendar begin;
 	GregorianCalendar end;
 	String name;
+	String name_short;
 
 	public CalendarEvent(GregorianCalendar begin, GregorianCalendar end,
 			String name) {
@@ -13,6 +14,16 @@ public class CalendarEvent {
 		this.begin = begin;
 		this.end = end;
 		this.name = name;
+		this.name_short = name;
+	}
+
+	public CalendarEvent(GregorianCalendar begin, GregorianCalendar end,
+			String name, String name_short) {
+		super();
+		this.begin = begin;
+		this.end = end;
+		this.name = name;
+		this.name_short = name_short;
 	}
 
 	public int getDayRange() {

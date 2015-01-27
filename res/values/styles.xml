@@ -27,13 +27,4 @@
         <item name="widget_bg">@drawable/widget_bg_light</item>
     </style>
 
-    <style name="Calendar.Event" parent="@android:style/Widget.TextView">
-        <item name="android:ellipsize">marquee</item>
-        <item name="android:scrollHorizontally">true</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:paddingLeft">3sp</item>
-        <item name="android:paddingRight">3sp</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
 </resources>
