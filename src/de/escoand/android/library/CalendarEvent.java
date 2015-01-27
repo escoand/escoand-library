@@ -1,5 +1,6 @@
 package de.escoand.android.library;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class CalendarEvent {
@@ -24,6 +25,10 @@ public class CalendarEvent {
 		this.end = end;
 		this.name = name;
 		this.name_short = name_short;
+	}
+	
+	public Date getBegin() {
+		return begin.getTime();
 	}
 
 	public int getDayRange() {
