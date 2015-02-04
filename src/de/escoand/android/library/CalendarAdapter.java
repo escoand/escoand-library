@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.view.ContextThemeWrapper;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -70,12 +70,6 @@ public class CalendarAdapter implements ListAdapter, OnClickListener {
 		CalendarEvent week = (CalendarEvent) getItem(position);
 		LayoutInflater inflater = LayoutInflater.from(context);
 		ViewHolder holder;
-
-		/* default layout */
-		int px = context.getResources().getDimensionPixelSize(
-				R.dimen.Calendar_Event_Margin);
-		LayoutParams layout = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
-		layout.setMargins(px, px, px, px);
 
 		/* get holder */
 		if (convertView == null) {
@@ -237,19 +231,33 @@ public class CalendarAdapter implements ListAdapter, OnClickListener {
 			}
 
 			/* event */
-			TextView tv = new TextView(new ContextThemeWrapper(context,
-					R.style.Calendar_Day_Event));
+			TextView tv = new TextView(context);
 			tv.setTag(event);
 			tv.setOnClickListener((OnClickListener) this);
-			tv.setTextColor(EVENT_FOREGROUND);
-			tv.setBackgroundColor(EVENT_BACKGROUND);
 			if (days > 2)
 				tv.setText(event.name);
 			else
 				tv.setText(event.name_short);
-			lo = new LayoutParams(layout);
-			lo.weight = days;
-			tv.setLayoutParams(lo);
+
+			/* design */
+			tv.setSingleLine();
+			tv.setTextColor(EVENT_FOREGROUND);
+			tv.setBackgroundColor(EVENT_BACKGROUND);
+			tv.setTextAppearance(context, R.style.Calendar_Day_Event);
+
+			/* layout */
+			int pM = context.getResources().getDimensionPixelSize(
+					R.dimen.Calendar_Event_Margin);
+			int pH = context.getResources().getDimensionPixelSize(
+					R.dimen.Calendar_Event_Padding_Horizontal);
+			int pV = context.getResources().getDimensionPixelSize(
+					R.dimen.Calendar_Event_Padding_Vertical);
+			LayoutParams layout = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
+			layout.setMargins(pM, pM, pM, pM);
+			layout.weight = days;
+			tv.setLayoutParams(layout);
+			tv.setPadding(pH, pV, pH, pV);
+
 			row.addView(tv, index);
 
 			/* placeholder */
