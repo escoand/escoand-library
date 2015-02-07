@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -356,7 +355,6 @@ public class CalendarAdapter implements ListAdapter, OnClickListener {
 	}
 
 	/* view holder */
-
 	private static class ViewHolder {
 		TextView month;
 		LinearLayout weekdays;
