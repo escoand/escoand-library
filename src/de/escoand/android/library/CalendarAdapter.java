@@ -31,7 +31,7 @@ public class CalendarAdapter implements ListAdapter, OnClickListener {
 		DATE_FIRST.set(GregorianCalendar.DAY_OF_YEAR, 1);
 		DATE_LAST = new GregorianCalendar();
 		DATE_LAST.set(GregorianCalendar.DAY_OF_YEAR,
-				DATE_LAST.getActualMaximum(GregorianCalendar.DAY_OF_YEAR));
+				DATE_LAST.getActualMaximum(GregorianCalendar.DAY_OF_MONTH));
 	}
 
 	public CalendarAdapter(GregorianCalendar first, GregorianCalendar last) {
